@@ -8,7 +8,7 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 import requests,json
-
+st.write("URL:", st.secrets["read_url"])
 #pnl_url = 'https://pythonbucketbh.s3.ap-south-1.amazonaws.com/allPnl.json'
 pnl_url = "https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/ZZ_qqCxYDxwQKLpojdGmjDJ74Ok9BoXPeNfZE_i4Qa4YRwRKNBWj7KGP9xicinCs/n/frj64xgqdjz2/b/bucket-20220326-2113/o/pnl.json"
 pnl_data=requests.get(pnl_url)
