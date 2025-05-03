@@ -83,7 +83,7 @@ strat_df['month']=strat_df['pdTime'].apply(lambda x:x.strftime('%b,%Y'))
 
 month_groups=strat_df.groupby('month',sort=False)['PNL'].sum()
 month_groups = month_groups.to_frame()
-month_groups['PNL %'] = month_groups['PNL'] * 100 / strategyCapitalDic['pnl']
+month_groups['PNL %'] = month_groups['PNL'] * 100 / botCapital
 
 ##last 30 days pnl
 strat_df=strat_df.reindex(strat_df.index[::-1])
