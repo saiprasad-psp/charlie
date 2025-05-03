@@ -9,28 +9,22 @@ import streamlit as st
 import plotly.express as px
 import requests,json
 
-option="charlie"
-strategyCapitalDic={"charlie":150000}
+option="CapitalCompound"
+strategyCapitalDic={"CapitalCompound":7200000}
 
 botCapital=strategyCapitalDic[option]
 
 st.title("**LIVE PERFORMANCE OF "+option.upper()+"**")
-st.write("**Capital used is "+str(botCapital)+"**")
+st.write("**Starting Capital used is "+str(botCapital)+"**")
 
 #pnl_url = 'https://pythonbucketbh.s3.ap-south-1.amazonaws.com/allPnl.json'
-pnl_url = "https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/ZZ_qqCxYDxwQKLpojdGmjDJ74Ok9BoXPeNfZE_i4Qa4YRwRKNBWj7KGP9xicinCs/n/frj64xgqdjz2/b/bucket-20220326-2113/o/pnl.json"
+pnl_url = "https://frj64xgqdjz2.objectstorage.eu-frankfurt-1.oci.customer-oci.com/p/-GC30XD-Zj8kNL-yozoyqQ2y7cSnhsScNPsOg-RADjrEPrkr5Trfs3hLBUvScvQ1/n/frj64xgqdjz2/b/bucket-20220326-2113/o/tradingpnl.json"
+pnl_url = 'https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/-GC30XD-Zj8kNL-yozoyqQ2y7cSnhsScNPsOg-RADjrEPrkr5Trfs3hLBUvScvQ1/n/frj64xgqdjz2/b/bucket-20220326-2113/o/tradingpnl.json'
 pnl_data=requests.get(pnl_url)
 pnl_df_t=pd.DataFrame.from_dict(json.loads(pnl_data.text))
 pnl_df=pnl_df_t.T
-#pnl_df['ALL']=pnl_df['pnl']+pnl_df['intra_pnl']+pnl_df['mr_pnl']
-#pnl_df.rename({'pnl':'BNFStraddle', 'intra_pnl':'IntradayTrend', 'mr_pnl':'MeanReversion'}, axis=1,inplace=True)
-#option = 'ALL'
 
-#option = st.selectbox(
-    # 'Select Strategy',
-    # ('ALL', 'BNFStraddle', 'MeanReversion', 'IntradayTrend'))
-
-charges = st.checkbox('With Charges', value=False, help="Assumption charges are 51 Rs per Day.")
+#charges = st.checkbox('With Charges', value=False, help="Assumption charges are 51 Rs per Day.")
 strat_pnl_Df=pnl_df[[option]]
 strat_pnl_Df.dropna(inplace=True)
 strat_df=strat_pnl_Df
@@ -40,8 +34,8 @@ strat_df['pdTime']=pd.to_datetime(strat_df.index,format="%Y-%m-%d")
 strat_df.sort_values('pdTime',inplace=True)
 #strat_df[option]=(botCapital/100)*strat_df[option].astype(float)
 strat_df["Time"]=strat_df.index
-if charges:
-    strat_df[option]=strat_df[option] - 51.0
+#if charges:
+#    strat_df[option]=strat_df[option] - 51.0
 
 strat_df['PNL']=strat_df[option]
 strat_df['cum_pnl']=strat_df[option].cumsum()
