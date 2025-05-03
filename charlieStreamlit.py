@@ -112,6 +112,6 @@ styled_df = month_groups.style.format({"PNL": "{:.2f}", "PNL %": "{:.4f}"}).appl
 st.dataframe(styled_df)
 #st.table(month_groups.style.format({"PNL":"{:.2f}","PNL %":"{:.4f}"}))
 st.write("**Date-wise PNL (Last 30 Days)**")
-styled_ddf = month_groups.style.format({"PNL": "{:.2f}", "PNL %": "{:.4f}"}).applymap(highlight_pnl, subset=["PNL", "PNL %"])
+styled_ddf = strat_df[['PNL', 'PNL %']][:30].style.format({"PNL": "{:.2f}", "PNL %": "{:.4f}"}).applymap(highlight_pnl, subset=["PNL", "PNL %"])
 #st.table(strat_df[['PNL', 'PNL %']][:30].style.format({"PNL":"{:.2f}","PNL %":"{:.4f}"}))
 st.dataframe(styled_ddf)
