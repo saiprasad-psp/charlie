@@ -101,10 +101,13 @@ netroitext = "Net ROI : "+str(results_row[-2])+" ("+str(results_row[-1])+"%)"
 st.markdown(f'<h1 style="color:{color};font-size:21px;">{netroitext}</h1>', unsafe_allow_html=True)
 st.write("**Statistics**")
 st.table(t_stats_Df.style.format({"":"{:.2f}"}))
-st.write("**PNL Curve**")
-st.plotly_chart(fig)
-st.write("**Drawdown Curve**")
-st.plotly_chart(dd_fig)
+col1, col2 = st.columns(2)
+with col1:
+    st.write("**PNL Curve**")
+    st.plotly_chart(fig)
+with col2:
+    st.write("**Drawdown Curve**")
+    st.plotly_chart(dd_fig)
 st.write("**Month-wise PNL**")
 # Apply the styling
 styled_df = month_groups.style.format({"PNL": "{:.2f}", "PNL %": "{:.4f}"}).applymap(highlight_pnl, subset=["PNL", "PNL %"])
