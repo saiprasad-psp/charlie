@@ -9,6 +9,11 @@ import streamlit as st
 import plotly.express as px
 import requests,json
 
+# Define a function to apply color formatting
+def highlight_pnl(val):
+    color = "green" if val > 0 else "red"
+    return f"color: {color}"
+
 option="CapitalCompound"
 strategyCapitalDic={"CapitalCompound":7200000}
 
@@ -101,6 +106,10 @@ st.plotly_chart(fig)
 st.write("**Drawdown Curve**")
 st.plotly_chart(dd_fig)
 st.write("**Month-wise PNL**")
-st.table(month_groups.style.format({"PNL":"{:.2f}","PNL %":"{:.4f}"}))
+# Apply the styling
+styled_df = month_groups.style.format({"PNL": "{:.2f}", "PNL %": "{:.4f}"}).applymap(highlight_pnl, subset=["PNL", "PNL %"])
+# Show the styled DataFrame in Streamlit
+st.dataframe(styled_df)
+#st.table(month_groups.style.format({"PNL":"{:.2f}","PNL %":"{:.4f}"}))
 st.write("**Date-wise PNL (Last 30 Days)**")
 st.table(strat_df[['PNL', 'PNL %']][:30].style.format({"PNL":"{:.2f}","PNL %":"{:.4f}"}))
