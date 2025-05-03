@@ -109,7 +109,7 @@ st.write("**Month-wise PNL**")
 # Apply the styling
 styled_df = month_groups.style.format({"PNL": "{:.2f}", "PNL %": "{:.4f}"}).applymap(highlight_pnl, subset=["PNL", "PNL %"])
 # Show the styled DataFrame in Streamlit
-st.dataframe(styled_df)
+st.table(styled_df)
 #st.table(month_groups.style.format({"PNL":"{:.2f}","PNL %":"{:.4f}"}))
 st.write("**Date-wise PNL (Last 30 Days)**")
 styled_ddf = strat_df[['PNL', 'PNL %']][:30].style.format({"PNL": "{:.2f}", "PNL %": "{:.4f}"}).applymap(highlight_pnl, subset=["PNL", "PNL %"])
