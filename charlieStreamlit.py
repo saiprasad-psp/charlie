@@ -25,7 +25,7 @@ pnl_df_t=pd.DataFrame.from_dict(json.loads(pnl_data.text))
 pnl_df=pnl_df_t.T
 
 #charges = st.checkbox('With Charges', value=False, help="Assumption charges are 51 Rs per Day.")
-strat_pnl_Df=pnl_df[[option]]
+strat_pnl_Df=pnl_df['pnl']
 strat_pnl_Df.dropna(inplace=True)
 strat_df=strat_pnl_Df
 
@@ -37,9 +37,9 @@ strat_df["Time"]=strat_df.index
 #if charges:
 #    strat_df[option]=strat_df[option] - 51.0
 
-strat_df['PNL']=strat_df[option]
-strat_df['cum_pnl']=strat_df[option].cumsum()
-strat_df['PNL %'] = strat_df['PNL'] * 100 / strategyCapitalDic[option]
+strat_df['PNL']=strat_df['pnl']
+strat_df['cum_pnl']=strat_df['pnl'].cumsum()
+strat_df['PNL %'] = strat_df['PNL'] * 100 / strategyCapitalDic['pnl']
 
 ##DRAWDOWN
 drawdown_df=strat_df.copy()
@@ -50,22 +50,22 @@ max_drawdown=drawdown_df['drawdown'].min()
 ##Strategy statistics
 stats_Df=pd.DataFrame(columns=["Total Days","Winning Days","Losing Days","Win Ratio(%)","Max Profit","Max Loss","Max Drawdown","Average Profit on Win Days","Average Profit on loss days","Average Profit Per day","Net profit","net Returns (%)"])
 total_days=len(strat_df)
-win_df=strat_df[strat_df[option].astype('float')>0]
-lose_df=strat_df[strat_df[option].astype('float')<0]
-noTrade_df=strat_df[strat_df[option].astype('float')==0]
+win_df=strat_df[strat_df['pnl'].astype('float')>0]
+lose_df=strat_df[strat_df['pnl'].astype('float')<0]
+noTrade_df=strat_df[strat_df['pnl'].astype('float')==0]
 
 win_days=len(win_df)
 lose_days=len(lose_df)
 
 win_ratio=win_days*1.0/lose_days
-max_profit=strat_df[option].max()
-max_loss=strat_df[option].min()
+max_profit=strat_df['pnl'].max()
+max_loss=strat_df['pnl'].min()
 
 #max_drawdown=0
-win_average_profit=win_df[option].sum()/win_days
-loss_average_profit=lose_df[option].sum()/lose_days
+win_average_profit=win_df['pnl'].sum()/win_days
+loss_average_profit=lose_df['pnl'].sum()/lose_days
 
-total_profit=strat_df[option].sum()
+total_profit=strat_df['pnl'].sum()
 average_profit=total_profit/total_days
 
 net_returns= round(strat_df['cum_pnl'].iloc[-1]*100/botCapital,2)
@@ -83,7 +83,7 @@ strat_df['month']=strat_df['pdTime'].apply(lambda x:x.strftime('%b,%Y'))
 
 month_groups=strat_df.groupby('month',sort=False)['PNL'].sum()
 month_groups = month_groups.to_frame()
-month_groups['PNL %'] = month_groups['PNL'] * 100 / strategyCapitalDic[option]
+month_groups['PNL %'] = month_groups['PNL'] * 100 / strategyCapitalDic['pnl']
 
 ##last 30 days pnl
 strat_df=strat_df.reindex(strat_df.index[::-1])
