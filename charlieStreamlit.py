@@ -25,7 +25,7 @@ pnl_df_t=pd.DataFrame.from_dict(json.loads(pnl_data.text))
 pnl_df=pnl_df_t.T
 
 #charges = st.checkbox('With Charges', value=False, help="Assumption charges are 51 Rs per Day.")
-strat_pnl_Df=pnl_df['pnl']
+strat_pnl_Df=pnl_df[['pnl']]
 strat_pnl_Df.dropna(inplace=True)
 strat_df=strat_pnl_Df
 
@@ -39,7 +39,7 @@ strat_df["Time"]=strat_df.index
 
 strat_df['PNL']=strat_df['pnl']
 strat_df['cum_pnl']=strat_df['pnl'].cumsum()
-strat_df['PNL %'] = strat_df['PNL'] * 100 / strategyCapitalDic['pnl']
+strat_df['PNL %'] = strat_df['PNL'] * 100 / botCapital
 
 ##DRAWDOWN
 drawdown_df=strat_df.copy()
