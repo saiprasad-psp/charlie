@@ -8,7 +8,7 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 import requests,json
-st.set_page_config(layout="wide")
+#st.set_page_config(layout="wide")
 # Define a function to apply color formatting
 def highlight_pnl(val):
     color = "green" if val > 0 else "red"
