@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 import requests,json
+import os
 #st.set_page_config(layout="wide")
 # Define a function to apply color formatting
 def highlight_pnl(val):
@@ -21,10 +22,8 @@ botCapital=strategyCapitalDic[option]
 
 st.title("**LIVE PERFORMANCE OF "+option.upper()+"**")
 st.write("**Starting Capital used is "+str(botCapital)+"**")
+pnl_url = os.environ.get("read_url", "")
 
-#pnl_url = 'https://pythonbucketbh.s3.ap-south-1.amazonaws.com/allPnl.json'
-pnl_url = "https://frj64xgqdjz2.objectstorage.eu-frankfurt-1.oci.customer-oci.com/p/-GC30XD-Zj8kNL-yozoyqQ2y7cSnhsScNPsOg-RADjrEPrkr5Trfs3hLBUvScvQ1/n/frj64xgqdjz2/b/bucket-20220326-2113/o/tradingpnl.json"
-pnl_url = 'https://objectstorage.eu-frankfurt-1.oraclecloud.com/p/-GC30XD-Zj8kNL-yozoyqQ2y7cSnhsScNPsOg-RADjrEPrkr5Trfs3hLBUvScvQ1/n/frj64xgqdjz2/b/bucket-20220326-2113/o/tradingpnl.json'
 pnl_data=requests.get(pnl_url)
 pnl_df_t=pd.DataFrame.from_dict(json.loads(pnl_data.text))
 pnl_df=pnl_df_t.T
